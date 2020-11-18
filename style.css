@@ -1,0 +1,9 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+canvas#game {
+  border: 2px solid black;
+  display: block;
+  margin: 50px auto;
+}
