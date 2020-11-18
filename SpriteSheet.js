@@ -18,4 +18,7 @@ export default class SpriteSheet {
     const buffer = this.tiles.get(name);
     ctx.drawImage(buffer, x, y);
   }
+  drawTile(name, ctx, x, y) {
+    this.draw(name, ctx, x * this.width, y * this.height);
+  }
 }
