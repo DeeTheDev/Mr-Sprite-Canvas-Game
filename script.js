@@ -1,52 +1,50 @@
-import { loadSprites } from "./sprites.js";
+import Compositor from "./Compositor.js";
+import Timer from "./Timer.js";
 import { loadLevel } from "/loaders.js"
+import { createMr} from './entities.js';
+import { loadBackgroundSprites } from "./sprites.js";
+import { createBackgroundLayer, createSpriteLayer} from './layers.js';
 import Keyboard from "./KeyboardState.js";
+
+// Canvas config
 const cvs = document.querySelector("canvas#game");
 const ctx = cvs.getContext("2d");
 
-cvs.width = 500;
-cvs.height = 350;
-
-function drawBackground(background, context, sprites) {
-    background.ranges.forEach(([x1, x2, y1, y2]) => {
-        for (let x = x1; x < x2; ++x) {
-            for (let y = y1; y < y2; ++y) {
-                sprites.draw(background.tile, context, x, y)
-            }
-        }
-    });
-}
-
 Promise.all([
-    loadSprites(),
+    createMr(),
+    loadBackgroundSprites(),
     loadLevel('1-1')
 ])
-.then(([sprite, level]) => {
-    const mister = {
-        pos: { 
-            x: 50, 
-            y: 50 
-        },
-    };
-    console.log("level loaded: ", level);
+.then(([mr, bgSprites, level]) => {
+    const comp = new Compositor();
+    
+    const backgroundLayer = createBackgroundLayer(level.backgrounds, bgSprites);
+    comp.layers.push(backgroundLayer);
+
+    const gravity = 400;
+    mr.pos.set(50, 268);
 
     const SPACE = 32;
     const input = new Keyboard();
     input.addMapping(SPACE, (keyState) => {
       console.log(keyState);
-      mister.pos.x += 2;
-      mister.pos.y += 0;
+    //   mr.pos.x += 2;
+    //   mr.pos.y += 2;
+        if(keyState) {
+            mr.jump.start();
+        } else {
+            mr.jump.cancel();
+        }
     });
     input.listenTo(window);
-    
-    function update() {
-        // level.backgrounds.forEach(background => {
-        //     drawBackground(level.backgrounds[0], ctx, sprite);
-        // })
-        // ctx.drawImage(backgroundBuffer, 0, 0);
-        // const bg = new 
-        sprite.draw("mr", ctx, mister.pos.x, mister.pos.y);
-        requestAnimationFrame(update);
+    const spriteLayer = createSpriteLayer(mr);
+    comp.layers.push(spriteLayer);
+
+    const timer = new Timer(1/60);
+    timer.update = function update(deltaTime) {
+        mr.update(deltaTime);
+        comp.draw(ctx);
+            mr.vel.y += gravity * deltaTime;
     }
-    update();
+    timer.start();
 });
