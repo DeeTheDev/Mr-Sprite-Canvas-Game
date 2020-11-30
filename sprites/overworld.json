@@ -1,0 +1,17 @@
+{
+    "imageURL": "mr.png",
+    "tileW": 16,
+    "tileH": 16,
+
+    "tiles": [
+        {
+            "name": "brick",
+            "index": [118, 49 ]
+        },
+        {
+            "name": "ground",
+            "index": [166, 33]
+        }
+
+    ]
+}
