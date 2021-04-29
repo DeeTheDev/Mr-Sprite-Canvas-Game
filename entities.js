@@ -3,7 +3,7 @@ import Go from './traits/Go.js'
 import Jump from './traits/Jump.js'
 // import { loadCatSprite } from './sprites.js'
 import { loadSpriteSheet } from '/loaders.js';
-import { createAnimation } from '/anim.js';
+import { createAnimation, createIdleAnimation } from '/anim.js';
 
 export async function createCat() {
     // loadSpriteSheet(<json sprite file name>)
@@ -15,18 +15,27 @@ export async function createCat() {
     cat.addTrait(new Go());
     cat.addTrait(new Jump());
 
+    // const idleAnim = createIdleAnimation(['idle-1', 'walk-2', 'idle-3', 'idle-4'], 4);
     const walkAnim = createAnimation(
         ['walk-1', 'walk-2', 'walk-3', 'walk-4', 
         'walk-5', 'walk-6', 'walk-7', 'walk-8'], 8);
 
     function routeFrame(cat) {
+        if(cat.jump.falling) {
+            return 'jump';
+        }
         if(cat.go.distance > 0) {
             if(cat.vel.x > 0 && cat.go.dir < 0 || cat.vel.x < 0 &&cat.go.dir > 0) {
                 return 'break';
             }
             return walkAnim(cat.go.distance);
+        } else{
+            // Note: Not working yet
+            // return idleAnim(100);
+            return 'idle-1'
         }
-        return 'idle';
+
+
     }
 
     cat.draw = function drawCat(context) {

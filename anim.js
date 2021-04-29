@@ -5,3 +5,11 @@ export function createAnimation(frames, frameLen) {
         return frameName;
     }
 }
+export function createIdleAnimation(frames, frameLen) {
+    return function resolveFrame(speed) {
+        const frameIndex = Math.floor(speed / frameLen) % frames.length;
+        console.log(frameIndex);
+        const frameName = frames[frameIndex];
+        return frameName;
+    }
+}

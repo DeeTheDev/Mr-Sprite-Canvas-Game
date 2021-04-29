@@ -2,8 +2,20 @@
     "imageURL": "cat_sprite.png",
     "frames": [
         {
-            "name": "idle",
+            "name": "idle-1",
             "rect": [22, 24, 16, 32]
+        },
+        {
+            "name": "idle-2",
+            "rect": [86, 24, 16, 32]
+        },
+        {
+            "name": "idle-3",
+            "rect": [150, 24, 16, 32]
+        },
+        {
+            "name": "idle-4",
+            "rect": [214, 24, 16, 32]
         },
         {
             "name": "walk-1",
@@ -40,6 +52,10 @@
         {
             "name": "break",
             "rect": [406, 88, 16, 32]
+        },
+        {
+            "name": "jump",
+            "rect": [150, 152, 16, 32]
         }
     ]
 }

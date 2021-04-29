@@ -14,8 +14,7 @@ export function loadImage(url) {
 
 async function loadJSON(url) {
     const r = await fetch(url);
-    const parsed = await r.json();
-  return await parsed
+    return await r.json();
 }
 
 function createTiles(level, backgrounds) {
@@ -84,8 +83,10 @@ export async function loadLevel(name) {
   ]);
   const level = new Level();
   createTiles(level, levelSpec_1.backgrounds);
+
   const backgroundLayer = createBackgroundLayer(level, backgroundSprites);
   level.comp.layers.push(backgroundLayer);
+
   const spriteLayer = createSpriteLayer(level.entities);
   level.comp.layers.push(spriteLayer);
   return level;

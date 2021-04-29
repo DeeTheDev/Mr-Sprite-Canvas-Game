@@ -10,6 +10,7 @@ export default class Go extends Trait {
         this.dragFactor = 1/5000;
 
         this.distance = 0;
+        this.idle = true;
         this.heading = 1;
     }
     update(entity, deltaTime) {
@@ -18,6 +19,14 @@ export default class Go extends Trait {
         // Distances resets to 0 when not moving
         if(this.dir !== 0) {
             entity.vel.x += this.acceleration * deltaTime * this.dir;
+
+            if(entity.jump) {
+                if(entity.jump.falling === false) {
+                    this.heading =this.dir;
+                }else {
+                    this.heading = this.dir;
+                }
+            }
             this.heading = this.dir;
         } else if(entity.vel.x !== 0) {
             const decel = Math.min(absX, this.acceleration * deltaTime);
@@ -25,12 +34,11 @@ export default class Go extends Trait {
         }else{
             this.distance = 0;
         }
-        
         const drag = this.dragFactor * entity.vel.x * absX;
         entity.vel.x -= drag;
-
+        
         this.distance += absX * deltaTime;
-
+        
         // entity.pos.x += entity.vel.x * deltaTime;
         // entity.pos.y += entity.vel.y * deltaTime;
         // if(this.engageTime > 0) {

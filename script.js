@@ -21,9 +21,9 @@ Promise.all([
     cat.pos.set(35, 68);
     
     // Debugger visual helper
-    // level.comp.layers.push(
-    //     createCollisionLayer(level), 
-    //     createCameraLayer(camera));
+    level.comp.layers.push(
+        createCollisionLayer(level), 
+        createCameraLayer(camera));
 
     level.entities.add(cat);
 
@@ -31,7 +31,7 @@ Promise.all([
     input.listenTo(window);
 
     // Debugger visual helper
-    // setupMouseControl(cvs, cat, camera);
+    setupMouseControl(cvs, cat, camera);
 
     const timer = new Timer(1/60);
     timer.update = function update(deltaTime) {
@@ -41,7 +41,7 @@ Promise.all([
             camera.pos.x = cat.pos.x -100;
         }
 
-        level.comp.draw(ctx, camera );
+        level.comp.draw(ctx, camera);
     }
     timer.start();
 });
